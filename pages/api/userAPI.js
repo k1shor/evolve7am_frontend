@@ -1,3 +1,4 @@
+
 const API = "http://localhost:5000/api"
 
 export const register = (user) => {
@@ -30,7 +31,17 @@ export const authenticate = (data) => {
 
 export const verifyUser = (token) => {
     return fetch(`${API}/verifyuser/${token}`)
-    .then(response => { return response.json() })
-    .catch(error => { return console.log(error) })
+        .then(response => { return response.json() })
+        .catch(error => { return console.log(error) })
 
+}
+
+export const isAuthenticated = async () => {
+    return localStorage.getItem('jwt') ? await JSON.parse(localStorage.getItem('jwt')) : false
+}
+
+export const logout = () => {
+    return fetch(`${API}/logout`)
+        .then(response => { return response.json() })
+        .catch(error => { return console.log(error) })
 }

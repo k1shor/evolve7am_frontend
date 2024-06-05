@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useState } from "react";
-import { authenticate, login } from "./api/userAPI";
+import { authenticate, isAuthenticated, login } from "./api/userAPI";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 
@@ -36,7 +36,16 @@ const Login = () => {
                 else {
                     authenticate(data)
                     // alert("User registered Successfully")
-                    router.push('/')
+
+                    isAuthenticated()
+                    .then(data=>{
+                        if(data.user.role==1){
+                            router.push('/admin/dashboard')
+                        }
+                        else{
+                            router.push('/')
+                        }
+                    })
                 }
             })
     }
