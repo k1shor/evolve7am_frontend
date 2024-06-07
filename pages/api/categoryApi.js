@@ -6,7 +6,7 @@ export const getAllCategories = () => {
         .catch(error => console.log(error))
 }
 
-export const deleteCategory = (id,token) => {
+export const deleteCategory = (id, token) => {
     return fetch(`${API}/deletecategory/${id}`, {
         method: "DELETE",
         headers: {
@@ -14,6 +14,38 @@ export const deleteCategory = (id,token) => {
             Authorization: `Bearer ${token}`
         }
     })
+        .then(response => response.json())
+        .catch(error => console.log(error))
+}
+
+export const addCategory = (category, token) => {
+    return fetch(`${API}/addcategory`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(category)
+    })
+        .then(response => response.json())
+        .catch(error => console.log(error))
+}
+
+export const editCategory = (id, category, token) => {
+    return fetch(`${API}/updatecategory/${id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(category)
+    })
+        .then(response => response.json())
+        .catch(error => console.log(error))
+}
+
+export const getCategory = (id) => {
+    return fetch(`${API}/getcategorydetails/${id}`)
         .then(response => response.json())
         .catch(error => console.log(error))
 }

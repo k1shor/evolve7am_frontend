@@ -10,6 +10,8 @@ const category = () => {
     let [token, setToken] = useState('')
     let [success,setSuccess] = useState(false)
 
+let [length, setLength] = useState(0)
+
     useEffect(() => {
         isAuthenticated()
         .then(data=>{
@@ -25,6 +27,7 @@ const category = () => {
                 }
                 else {
                     setCategories(data)
+                    setLength(data.length)
                     setSuccess(false)
                 }
             })
@@ -57,16 +60,13 @@ const category = () => {
     return (<>
         <div className="flex">
             <div className="w-1/4">
-                <AdminSidebar />
+                <AdminSidebar category={length}/>
             </div>
             <div className="w-3/4">
 
                 <h1 className="text-2xl underline font-bold">Categories</h1>
 
-<form>
-<input type="time" min={"08:00:00"} max={"20:00:00"} step={"1800"} />
-<button>submit</button>
-</form>
+<Link href={'/admin/category/new'} className="inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 mt-2">Add Category</Link>
 
 
                 <div className="relative overflow-x-auto shadow-md rounded-lg py-4">
@@ -96,7 +96,7 @@ const category = () => {
                                         </th>
 
                                         <td className="px-6 py-4 text-right">
-                                            <Link href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</Link>
+                                            <Link href={`/admin/category/${category._id}`} className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</Link>
                                             <button className="font-medium text-red-600 dark:text-red-500 hover:underline px-4" onClick={handleDelete(category._id)}>Delete</button>
                                         </td>
                                     </tr>
