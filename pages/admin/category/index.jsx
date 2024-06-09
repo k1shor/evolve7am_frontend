@@ -8,17 +8,17 @@ import Swal from "sweetalert2";
 const category = () => {
     let [categories, setCategories] = useState([])
     let [token, setToken] = useState('')
-    let [success,setSuccess] = useState(false)
+    let [success, setSuccess] = useState(false)
 
-let [length, setLength] = useState(0)
+    let [length, setLength] = useState(0)
 
     useEffect(() => {
         isAuthenticated()
-        .then(data=>{
-            if(data.token){
-                setToken(data.token)
-            }
-        })
+            .then(data => {
+                if (data.token) {
+                    setToken(data.token)
+                }
+            })
 
         getAllCategories()
             .then(data => {
@@ -44,15 +44,15 @@ let [length, setLength] = useState(0)
             .then(result => {
                 if (result.isConfirmed) {
                     deleteCategory(id, token)
-                    .then(data=>{
-                        if(data.error){
-                            Swal.fire("Error",data.error)
-                        }
-                        else{
-                            Swal.fire("Success",data.message) 
-                            setSuccess(true)
-                        }
-                    })
+                        .then(data => {
+                            if (data.error) {
+                                Swal.fire("Error", data.error)
+                            }
+                            else {
+                                Swal.fire("Success", data.message)
+                                setSuccess(true)
+                            }
+                        })
                 }
             })
     }
@@ -60,13 +60,13 @@ let [length, setLength] = useState(0)
     return (<>
         <div className="flex">
             <div className="w-1/4">
-                <AdminSidebar category={length}/>
+                <AdminSidebar category={length} />
             </div>
             <div className="w-3/4">
 
                 <h1 className="text-2xl underline font-bold">Categories</h1>
 
-<Link href={'/admin/category/new'} className="inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 mt-2">Add Category</Link>
+                <Link href={'/admin/category/new'} className="inline-block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 mt-2">Add Category</Link>
 
 
                 <div className="relative overflow-x-auto shadow-md rounded-lg py-4">
