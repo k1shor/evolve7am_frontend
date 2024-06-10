@@ -105,7 +105,8 @@ const products = () => {
                                     return <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                                         <th className="text-center">{i + 1}</th>
                                         <th scope="row">
-                                            <img src={`${API}/${prod.image}`} alt={prod.title} />
+                                            <img src={`${API}/${prod.image}`} alt={prod.title} 
+                                            className="h-24"/>
                                             
                                         </th>
                                         <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
