@@ -32,3 +32,21 @@ export const addProduct = (product, token) => {
         .then(response => response.json())
         .catch(error => console.log(error))
 }
+
+export const getproduct = (id) => {
+    return fetch(`${API}/productdetails/${id}`)
+        .then(response => response.json())
+        .catch(error => console.log(error))
+}
+
+export const updateProduct = (id, product, token) => {
+    return fetch(`${API}/updateproduct/${id}`, {
+        method: "PUT",
+        headers: {
+            Authorization: `Bearer ${token}`
+        },
+        body: product
+    })
+        .then(response => response.json())
+        .catch(error => console.log(error))
+}

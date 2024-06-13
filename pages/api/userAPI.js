@@ -45,3 +45,22 @@ export const logout = () => {
         .then(response => { return response.json() })
         .catch(error => { return console.log(error) })
 }
+
+export const getAllUsers = () => {
+    return fetch(`${API}/userlist`)
+        .then(response => { return response.json() })
+        .catch(error => { return console.log(error) })
+}
+
+export const changerole = (id, user, token) => {
+    return fetch(`${API}/updateuser/${id}`,{
+        method: "PUT",
+        headers:{
+            "Content-Type":"application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(user)
+    })
+    .then(response => { return response.json() })
+    .catch(error => { return console.log(error) })
+}
