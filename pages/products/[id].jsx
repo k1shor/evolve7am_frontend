@@ -1,10 +1,17 @@
 import { useParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
-import { getproduct } from '../api/productApi'
+import { getRelatedProducts, getproduct } from '../api/productApi'
+import ProductCard from '../Components/ProductCard'
+import { useDispatch } from 'react-redux'
+import { ADDTOCART } from '@/pages/cartSlice'
+import { add_to_cart } from '../middleware/cartActions'
 
 const productDetails = () => {
     let [product, setProduct] = useState({})
+    let [relatedProducts, setRelatedProducts] = useState([])
     let id = useParams()?.id
+
+    const dispatch = useDispatch()
 
     const API = `http://localhost:5000/api`
 
@@ -16,6 +23,15 @@ const productDetails = () => {
                         console.log(data.error)
                     }
                     setProduct(data)
+                    getRelatedProducts(id)
+                        .then(data => {
+                            if (data.error) {
+                                console.log(data.error)
+                            }
+                            else {
+                                setRelatedProducts(data)
+                            }
+                        })
                 })
         }
     }, [id])
@@ -35,7 +51,7 @@ const productDetails = () => {
                             <h1
                                 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white"
                             >
-                               {product.title}
+                                {product.title}
                             </h1>
                             <div class="mt-4 sm:items-center sm:gap-4 sm:flex">
                                 <p
@@ -153,11 +169,12 @@ const productDetails = () => {
                                     Add to favorites
                                 </a>
 
-                                <a
-                                    href="#"
+                                <button
                                     title=""
                                     class="text-white mt-4 sm:mt-0 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 flex items-center justify-center"
                                     role="button"
+                                    onClick={() => dispatch(add_to_cart(product, 1))}
+
                                 >
                                     <svg
                                         class="w-5 h-5 -ms-2 me-2"
@@ -178,13 +195,13 @@ const productDetails = () => {
                                     </svg>
 
                                     Add to cart
-                                </a>
+                                </button>
                             </div>
 
                             <hr class="my-6 md:my-8 border-gray-200 dark:border-gray-800" />
 
                             <p class="mb-6 text-gray-500 dark:text-gray-400">
-                               {product.description}
+                                {product.description}
                             </p>
 
                             {/* <p class="text-gray-500 dark:text-gray-400">
@@ -196,6 +213,14 @@ const productDetails = () => {
                     </div>
                 </div>
             </section>
+            <h1 className="text-2xl font-bold text-center underline my-3">Related Products</h1>
+            <div className="grid p-3 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                {
+                    relatedProducts.map(product => {
+                        return <ProductCard product={product} key={product._id} />
+                    })
+                }
+            </div>
         </>
     )
 }

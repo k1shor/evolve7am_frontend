@@ -62,3 +62,9 @@ export const getFilteredProducts = (filter) => {
         .then(response => response.json())
         .catch(error => console.log(error))
 }
+
+export const getRelatedProducts = (id) => {
+    return fetch(`${API}/getrelatedproducts/${id}`)
+        .then(response => response.json())
+        .catch(error => console.log(error))
+}

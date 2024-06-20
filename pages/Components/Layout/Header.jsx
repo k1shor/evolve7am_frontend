@@ -1,7 +1,9 @@
 import { isAuthenticated, logout } from '@/pages/api/userAPI'
+import { LOADCARTITEMS } from '@/pages/cartSlice'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 
 const Header = () => {
     let [user, setUser] = useState({})
@@ -10,11 +12,16 @@ const Header = () => {
     let pathname = usePathname()
     console.log(pathname)
 
+    const dispatch = useDispatch()
     useEffect(() => {
         isAuthenticated()
             .then(data => {
                 setUser(data.user)
             })
+        loadCartItems()
+        .then(data=>{
+            dispatch(LOADCARTITEMS(data))
+        })
     }, [])
 
     const handleLogout = () => {
@@ -27,6 +34,11 @@ const Header = () => {
 
     // document.getElementById('logoutbtn').addEventListener('click',handleLogout)
 
+
+    const loadCartItems = async () => {
+        let cart_items = await JSON.parse(localStorage.getItem('cart_items'))
+        return cart_items ? cart_items : []
+    }
 
 
     return (
@@ -78,9 +90,9 @@ const Header = () => {
                                 <li>
                                     {
                                         pathname.match(/^[/]$/) ?
-                                        <Link href="/" className="block py-2 pr-4 pl-3 text-white rounded bg-primary-700 lg:bg-transparent lg:text-primary-700 lg:p-0 dark:text-white" aria-current="page">Home</Link>
-                                        :
-                                        <Link href="/" className="block py-2 pr-4 pl-3 text-slate-700 rounded bg-primary-700 lg:bg-transparent lg:text-primary-700 lg:p-0 dark:text-white" aria-current="page">Home</Link>
+                                            <Link href="/" className="block py-2 pr-4 pl-3 text-white rounded bg-primary-700 lg:bg-transparent lg:text-primary-700 lg:p-0 dark:text-white" aria-current="page">Home</Link>
+                                            :
+                                            <Link href="/" className="block py-2 pr-4 pl-3 text-slate-700 rounded bg-primary-700 lg:bg-transparent lg:text-primary-700 lg:p-0 dark:text-white" aria-current="page">Home</Link>
 
                                     }
                                 </li>
@@ -88,7 +100,7 @@ const Header = () => {
                                     {
                                         pathname.match('/products') ?
                                             <Link href="/products" className={`block py-2 pr-4 pl-3 text-white rounded bg-primary-700 lg:bg-transparent lg:text-white-700 lg:p-0 dark:text-white`}>Products</Link>
-                                             :
+                                            :
                                             <Link href="/products" className={`block py-2 pr-4 pl-3 text-gray-700 rounded bg-primary-700 lg:bg-transparent lg:text-primary-700 lg:p-0 dark:text-white`}>Products</Link>
 
                                     }
