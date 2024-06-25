@@ -4,7 +4,7 @@ export const cartSlice = createSlice({
     name: 'cart',
     initialState: {
         cart_items: [],
-        // shipping_info: {}
+        shipping_info: {}
     },
     reducers: {
         LOADCARTITEMS: (state, action)=>{
@@ -29,11 +29,14 @@ export const cartSlice = createSlice({
         },
         CLEARCART: (state) => {
             return state
+        },
+        SAVESHIPPINGINFO: (state, action) => {
+            return {...state, shipping_info: action.payload}
         }
     }
 })
 
 // Action creators are generated for each case reducer function
-export const { ADDTOCART, REMOVEFROMCART, CLEARCART, UPDATECART, LOADCARTITEMS } = cartSlice.actions
+export const { ADDTOCART, REMOVEFROMCART, CLEARCART, UPDATECART, LOADCARTITEMS, SAVESHIPPINGINFO } = cartSlice.actions
 
 export default cartSlice.reducer

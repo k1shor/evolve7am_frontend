@@ -1,5 +1,5 @@
 import Swal from "sweetalert2"
-import { ADDTOCART, REMOVEFROMCART, UPDATECART } from "../cartSlice"
+import { ADDTOCART, REMOVEFROMCART, SAVESHIPPINGINFO, UPDATECART } from "../cartSlice"
 
 export const add_to_cart = (item, quantity) => async (dispatch, getState) => {
     // let cart_items = await JSON.parse(localStorage.getItem('cart_items'))
@@ -63,5 +63,13 @@ export const remove_from_cart = (id) => async (dispatch, getState) => {
 
     localStorage.setItem('cart_items', JSON.stringify(await getState().cart.cart_items))
     
+
+}
+
+export const saveShippingInfo = (shipping_info) => async (dispatch, getState) => {
+    console.log(shipping_info)
+    await dispatch(SAVESHIPPINGINFO(shipping_info))
+
+    localStorage.setItem('shipping_info', JSON.stringify(await getState().cart.shipping_info))
 
 }
